@@ -30,7 +30,7 @@ def generate_groups(student_list):
 
     return Groups
 
-def print_groups():
+def print_groups(Groups):
 
     for group, students in Groups.items():
         students_str = ', '.join(students)
@@ -66,7 +66,7 @@ def main():
     student_list = file.readlines()
 
     Groups = generate_groups(student_list)
-    print_groups()
+    print_groups(Groups)
     randomize = ask_to_randomize()
 
     while(randomize):
@@ -74,7 +74,7 @@ def main():
         random.shuffle(student_list)
         # func(student_list)
         Groups = generate_groups(student_list)
-        print_groups()
+        print_groups(Groups)
         randomize = ask_to_randomize()
 
 main()
