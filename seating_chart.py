@@ -1,5 +1,7 @@
 import sys
 import random
+import csv
+import pandas as pd
 
 def get_num_groups():
     num_groups = 0
@@ -14,16 +16,15 @@ def get_num_groups():
             break
     return num_groups
 
-def generate_groups(student_list):
+def generate_groups(student_list, num_students_per_group):
     Groups = {}
     curr_num_students = 0
-    num_students_per_groups = int(get_num_groups())
-    if(num_students_per_groups == 0):
+    if(num_students_per_group == 0):
         print("You did not enter a valid group size.")
         sys.exit()
 
     for student in student_list:
-        idx = curr_num_students//num_students_per_groups
+        idx = curr_num_students//num_students_per_group
         Groups.setdefault(idx, [])
         Groups[idx].append(student.strip())
         curr_num_students += 1
@@ -56,16 +57,36 @@ def ask_to_randomize():
                 sys.exit()
             continue
 
-def main():
+def readfile(filename, student_list):
 
     try:
-        file = open('students.txt')
+        with open('Roster.csv', 'r') as csvfile:
+            header = next(csvfile)
+            reader = csv.reader(csvfile)
+            for row in reader:
+                first_name = row[7].strip()
+                if(row[10].strip()):
+                    first_name = row[10].strip()
+                last_name = row[6].strip()
+                # print(f"First Name: {first_name}, Last Name: {last_name}")
+                student_list.append(first_name + ' ' + last_name)
+            print(student_list)
     except FileNotFoundError:
-        print("File not found.")
+        print(f"Error: The file '{filename}' does not exist.")
+    except IOError as e:
+        print(f"Error: Unable to open or read the file '{filename}': {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 
-    student_list = file.readlines()
 
-    Groups = generate_groups(student_list)
+def main():
+    filename = 'Roster.csv'
+    student_list = []
+    readfile(filename, student_list)
+    num_students_per_group = get_num_groups()
+
+    random.shuffle(student_list)
+    Groups = generate_groups(student_list, num_students_per_group)
     print_groups(Groups)
     randomize = ask_to_randomize()
 
@@ -73,7 +94,7 @@ def main():
         # student_list = file.readlines()
         random.shuffle(student_list)
         # func(student_list)
-        Groups = generate_groups(student_list)
+        Groups = generate_groups(student_list, num_students_per_group)
         print_groups(Groups)
         randomize = ask_to_randomize()
 
