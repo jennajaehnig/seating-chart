@@ -24,7 +24,10 @@ tables.forEach(table => {
             desk.insertAdjacentElement("afterend", currStudent)
         } else if(curr_desk_idx > desk_idx){
             desk.insertAdjacentElement("beforebegin", currStudent)
+        } else if (desk.parentNode.id != currStudent.parentNode.id){
+            desk.insertAdjacentElement("beforebegin", currStudent)
         }
+
         curr_desk_idx = desk_idx
     })
 })
