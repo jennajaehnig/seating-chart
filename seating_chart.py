@@ -8,7 +8,7 @@ def get_num_groups():
     for i in range(3):
         try:
             num_groups = int(input("What size groups do you want? "))
-            print()
+            print(num_groups)
         except ValueError:
             print("Please enter an integer value.")
             continue
@@ -45,6 +45,7 @@ def ask_to_randomize():
 
     for i in range(3):
         choice = input("Would you like to randomize groups? [y/n] ").lower()
+        # console.log(choice)
         if choice in yes:
             randomize = True
             return randomize
@@ -60,7 +61,7 @@ def ask_to_randomize():
 def readfile(filename, student_list):
 
     try:
-        with open('Roster.csv', 'r') as csvfile:
+        with open('static/Roster.csv', 'r') as csvfile:
             header = next(csvfile)
             reader = csv.reader(csvfile)
             for row in reader:
