@@ -4,65 +4,122 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Seating Chart Website</title>
-        <link rel="stylesheet" href="static/styles.css">
-        <script src="static/drag_and_drop.js" defer></script>
+        <!-- <link rel="stylesheet" href="/static/css/style.css"> -->
+        <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"> 
+        <script src="/static/drag_and_drop.js" defer></script>
     </head>
     <body>
 
         <div id="header">
             <button id="randomizeBtn">Randomize</button>
-            <script src="static/app.js" defer></script>
+            <script src="/static/app.js" defer></script>
         </div>
 
         <div class="all_groups_wrapper">
 
             <div id="group1" class="group">
-                <div class="student" draggable="true"><img src="static/images/hermione.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/potter.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/olivia.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/probst.jpg"></div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='hermione.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='potter.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='olivia.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='probst.jpg')}}">
+                </div>
             </div>
     
             <div id="group2" class="group">
-                <div class="student" draggable="true"><img src="static/images/conan.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/taylor.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/jenna.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/sam.jpg"></div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='conan.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='taylor.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='jenna.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='sam.jpg')}}">
+                </div>
             </div>
     
             <div id="group3" class="group">
-                <div class="student" draggable="true"><img src="static/images/gracie.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/ronald.jpg"></div>                
-                <div class="student" draggable="true"><img src="static/images/probst.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/olivia.jpg"></div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='gracie.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='ronald.jpg')}}">
+                </div>                
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='probst.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='olivia.jpg')}}">
+                </div>
             </div>
     
             <div id="group4" class="group">
-                <div class="student" draggable="true"><img src="static/images/hermione.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/potter.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/conan.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/taylor.jpg"></div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='hermione.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='potter.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='conan.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='taylor.jpg')}}">
+                </div>
             </div>
     
             <div id="group5" class="group">
-                <div class="student" draggable="true"><img src="static/images/gracie.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/ronald.jpg"></div>                
-                <div class="student" draggable="true"><img src="static/images/probst.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/sam.jpg"></div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='gracie.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='ronald.jpg')}}">
+                </div>                
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='probst.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='sam.jpg')}}">
+                </div>
             </div>
     
             <div id="group6" class="group">
-                <div class="student" draggable="true"><img src="static/images/conan.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/taylor.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/probst.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/olivia.jpg"></div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='conan.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='taylor.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='probst.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='olivia.jpg')}}">
+                </div>
             </div>
     
             <div id="group7" class="group">
-                <div class="student" draggable="true"><img src="static/images/hermione.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/potter.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/olivia.jpg"></div>
-                <div class="student" draggable="true"><img src="static/images/probst.jpg"></div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='hermione.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='potter.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='olivia.jpg')}}">
+                </div>
+                <div class="student" draggable="true">
+                    <img src="{{url_for('load_img', filename='probst.jpg')}}">
+                </div>
             </div>
     
         </div>
