@@ -11,8 +11,14 @@
     <body>
 
         <div id="header">
-            <button id="randomizeBtn">Randomize</button>
-            <script src="/static/app.js" defer></script>
+            <form action="/submit?quantity=/" method="post">
+                <div>
+                    Group size:
+                    <input type="number" id="groupSize" name="groupSize" min="1" max="5">
+                    <input type="submit" id="randomizeBtn" value="Randomize"/>
+                </div>
+            </form>
+            <script src="/static/app.js" defer></script>    
         </div>
 
         <div class="all_groups_wrapper">
