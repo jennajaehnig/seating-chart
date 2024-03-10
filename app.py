@@ -5,9 +5,14 @@ import os
 import sys
 import csv
 import random
-# import sqlite3
+import sqlite3
+import pandas as pd
+
 
 app = Flask(__name__)
+
+connection = sqlite3.connect('seating_chart.db')
+
 
 @app.route('/')
 def index():
@@ -32,27 +37,6 @@ def get_num_groups():
         else:
             break
     return num_groups
-
-
-# def ask_to_randomize():
-#     yes = {'yes', 'ye', 'y'}
-#     no = {'no', 'n'}
-#     randomize = False
-
-#     for i in range(3):
-#         choice = input("Would you like to randomize groups? [y/n] ").lower()
-#         # console.log(choice)
-#         if choice in yes:
-#             randomize = True
-#             return randomize
-#         elif choice in no:
-#             randomize = False
-#             return randomize
-#         else:
-#             sys.stdout.write("Please respond with 'y' or 'n'\n")
-#             if(i == 2):
-#                 sys.exit()
-#             continue
 
 
 def generate_groups(student_list, num_students_per_group):
@@ -80,33 +64,60 @@ def print_groups(Groups):
 
 
 def readfile(filename, student_list):
-    connection = sqlite3.c
 
-    # try:
-    #     with open('static/Roster.csv', 'r') as csvfile:
-    #         header = next(csvfile)
-    #         reader = csv.reader(csvfile)
-    #         for row in reader:
-    #             first_name = row[7].strip()
-    #             if(row[10].strip()):
-    #                 first_name = row[10].strip()
-    #             last_name = row[6].strip()
-    #             # print(f"First Name: {first_name}, Last Name: {last_name}")
-    #             student_list.append(first_name + ' ' + last_name)
-    #         print(student_list)
-    # except FileNotFoundError:
-    #     print(f"Error: The file '{filename}' does not exist.")
-    # except IOError as e:
-    #     print(f"Error: Unable to open or read the file '{filename}': {e}")
-    # except Exception as e:
-    #     print(f"An unexpected error occurred: {e}")
+    cur = connection.execute(
+        "DROP TABLE IF EXISTS students"
+    )
+
+    cur = connection.execute( 
+        '''
+        CREATE TABLE students( 
+        student_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        first_name VARCHAR(20) NOT NULL,
+        last_name VARCHAR(40) NOT NULL);
+        '''
+    )
+
+    with open(os.path.join('static', filename), 'r') as csvfile:
+        contents = csv.reader(csvfile)
+        next(contents)  # Skip header if exists
+
+        data_to_insert = [(row[7], row[6]) for row in contents]
+
+        # Execute the SQL command to insert multiple rows
+        cur = connection.executemany(
+            "INSERT INTO students (first_name, last_name) VALUES (?, ?)",
+            (data_to_insert)
+        )
+
+    cur = connection.execute(
+        "SELECT * FROM students"
+    )
+    rows = cur.fetchall()
+    
+    for r in rows:
+        student_list.append(r[1] + ' ' + r[2])
+
+
+def display_groups(Groups):
+
+    for group in Groups:
+        for student in group:
+            cur = connection.execute('''
+                SELECT img_url FROM students WHERE first_name = ?,
+                ''', (student[0], ))
+            student_img_url = cur.fetchone()
+            
 
 
 @app.route('/submit/', methods=['POST'])
 def submit():
     if flask.request.method == 'POST':
-        groupSize = (int)(flask.request.form['groupSize'])
-        
+        try:
+            groupSize = int(flask.request.form['groupSize'])
+        except ValueError:
+            print('Please enter a group size')
+
         # Now you can use the data as required
         # For example, let's print it and return it to the user
         print(f"Group size: {groupSize}")
@@ -114,22 +125,11 @@ def submit():
         filename = 'Roster.csv'
         student_list = []
         readfile(filename, student_list)
-        # num_students_per_group = get_num_groups()
 
         random.shuffle(student_list)
         Groups = generate_groups(student_list, groupSize)
         print_groups(Groups)
-        # randomize = ask_to_randomize()
-
-        # while(randomize):
-        #     # student_list = file.readlines()
-        #     random.shuffle(student_list)
-        #     # func(student_list)
-        #     Groups = generate_groups(student_list, num_students_per_group)
-        #     print_groups(Groups)
-        #     randomize = ask_to_randomize()
-
-
+        display_groups(Groups)
 
     return flask.redirect('/')
         
@@ -140,6 +140,7 @@ def load_img(filename):
     if not os.path.exists(os.path.join(directory, filename)):
         flask.abort(404)
     return flask.send_from_directory(directory, filename)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
